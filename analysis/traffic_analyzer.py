@@ -115,31 +115,30 @@ class TrafficAnalyzer:
         print(f"\n Protocoles utilisés :")
         for proto, count in self.stats['protocols'].most_common():
             percentage = (count / self.stats['total_packets']) * 100
-            print(f"  • {proto}: {count} ({percentage:.1f}%)")
+            print(f"  {proto}: {count} ({percentage:.1f}%)")
         
         print(f"\n Top 5 IPs sources :")
         for ip, count in self.stats['ip_sources'].most_common(5):
-            print(f"  • {ip}: {count} paquets")
+            print(f"  {ip}: {count} paquets")
         
         print(f"\n Top 5 IPs destinations :")
         for ip, count in self.stats['ip_destinations'].most_common(5):
-            print(f"  • {ip}: {count} paquets")
+            print(f" {ip}: {count} paquets")
         
         print(f"\n Top 10 ports les plus utilisés :")
         for port, count in self.stats['ports'].most_common(10):
             service = self._get_port_service(port)
-            print(f"  • Port {port} ({service}): {count} connexions")
+            print(f"  Port {port} ({service}): {count} connexions")
         
         if self.stats['dns_queries']:
             print(f"\n Requêtes DNS ({len(self.stats['dns_queries'])}) :")
             for query in list(set(self.stats['dns_queries']))[:10]:
-                print(f"  • {query}")
+                print(f"  {query}")
         
         if self.stats['packet_sizes']:
             avg_size = sum(self.stats['packet_sizes']) / len(self.stats['packet_sizes'])
             print(f"\n Taille moyenne des paquets : {avg_size:.2f} octets")
         
-        print("\n" + "="*60)
     
     def _get_port_service(self, port):
         """Retourne le service associé à un port"""
