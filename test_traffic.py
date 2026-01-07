@@ -33,7 +33,6 @@ for _ in range(3):
     pkt = IP(dst="192.168.1.1")/TCP(dport=21, flags="PA")/"USER admin\r\n"
     packets.append(pkt)
 
-# Sauvegarde
 output_file = "data/captures/test_malicious.pcap"
 wrpcap(output_file, packets)
 print(f"\n[+] {len(packets)} paquets malveillants générés dans {output_file}")

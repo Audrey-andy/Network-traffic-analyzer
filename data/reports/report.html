@@ -1,0 +1,432 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport d'Analyse Réseau - 2026-01-06 18:03:00</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+        
+        .stat-card h3 {
+            color: #667eea;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        
+        .stat-card .small-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        
+        .section {
+            padding: 40px;
+        }
+        
+        .section h2 {
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            color: #1e3c72;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .incident {
+            background: white;
+            padding: 25px;
+            margin: 15px 0;
+            border-left: 5px solid;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .incident.critical {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+        
+        .incident.high {
+            border-color: #fd7e14;
+            background: #fff8f5;
+        }
+        
+        .incident-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .incident-title {
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+        
+        .badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .badge.critical { background: #dc3545; }
+        .badge.high { background: #fd7e14; }
+        .badge.medium { background: #ffc107; color: #333; }
+        .badge.low { background: #17a2b8; }
+        
+        .alert {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .alert.critical { border-color: #dc3545; background: #fff5f5; }
+        .alert.high { border-color: #fd7e14; background: #fff8f5; }
+        .alert.medium { border-color: #ffc107; background: #fffbf5; }
+        .alert.low { border-color: #17a2b8; background: #f5fbff; }
+        
+        .alert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .alert-title {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .chart-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .footer {
+            background: #1e3c72;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .no-alerts {
+            background: #d4edda;
+            color: #155724;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2em;
+            margin: 20px 0;
+        }
+        
+        .country-flag {
+            display: inline-block;
+            width: 20px;
+            height: 15px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1> Rapport d'Analyse de Trafic Réseau</h1>
+            <div class="subtitle">
+                Fichier analysé : data/captures/capture_20260106_180259.pcap<br>
+                Généré le : 2026-01-06 18:03:00
+            </div>
+        </div>
+        
+        
+        <div class="summary">
+            <div class="stat-card">
+                <h3> Total Paquets</h3>
+                <div class="value">83</div>
+            </div>
+            <div class="stat-card">
+                <h3> Alertes Totales</h3>
+                <div class="value">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>🔴 Critiques</h3>
+                <div class="value">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>🟠 Hautes</h3>
+                <div class="value">0</div>
+            </div>
+            <div class="stat-card">
+                <h3> Incidents Corrélés</h3>
+                <div class="value">0</div>
+            </div>
+            <div class="stat-card">
+                <h3> Protocole Principal</h3>
+                <div class="small-value">TCP</div>
+            </div>
+        </div>
+        
+        
+        
+            <div class="section">
+                <h2> Alertes de Sécurité</h2>
+                <div class="no-alerts">
+                     Aucune anomalie détectée ! Le trafic semble légitime.
+                </div>
+            </div>
+            
+        
+        
+        <div class="section"><h2> Statistiques du Trafic</h2>
+        <div class="chart-container">
+            <h3>Répartition des Protocoles</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Protocole</th>
+                        <th>Nombre de Paquets</th>
+                        <th>Pourcentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+        
+                <tr>
+                    <td><strong>TCP</strong></td>
+                    <td>66</td>
+                    <td>79.5%</td>
+                </tr>
+            
+                <tr>
+                    <td><strong>UDP</strong></td>
+                    <td>17</td>
+                    <td>20.5%</td>
+                </tr>
+            </tbody></table></div>
+        <div class="chart-container">
+            <h3>Top 10 Adresses IP Sources</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Adresse IP</th>
+                        <th>Nombre de Paquets</th>
+                    </tr>
+                </thead>
+                <tbody>
+        
+                <tr>
+                    <td><code>172.20.10.8</code></td>
+                    <td>31</td>
+                </tr>
+            
+                <tr>
+                    <td><code>13.107.213.42</code></td>
+                    <td>25</td>
+                </tr>
+            
+                <tr>
+                    <td><code>172.20.10.1</code></td>
+                    <td>8</td>
+                </tr>
+            
+                <tr>
+                    <td><code>172.20.10.2</code></td>
+                    <td>7</td>
+                </tr>
+            
+                <tr>
+                    <td><code>34.36.137.203</code></td>
+                    <td>5</td>
+                </tr>
+            
+                <tr>
+                    <td><code>13.107.246.42</code></td>
+                    <td>5</td>
+                </tr>
+            
+                <tr>
+                    <td><code>34.107.243.93</code></td>
+                    <td>2</td>
+                </tr>
+            </tbody></table></div>
+        <div class="chart-container">
+            <h3>Top 10 Ports les Plus Utilisés</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Port</th>
+                        <th>Service</th>
+                        <th>Connexions</th>
+                    </tr>
+                </thead>
+                <tbody>
+        
+                <tr>
+                    <td><strong>443</strong></td>
+                    <td>HTTPS</td>
+                    <td>29</td>
+                </tr>
+            
+                <tr>
+                    <td><strong>57280</strong></td>
+                    <td>Inconnu</td>
+                    <td>18</td>
+                </tr>
+            
+                <tr>
+                    <td><strong>34662</strong></td>
+                    <td>Inconnu</td>
+                    <td>7</td>
+                </tr>
+            
+                <tr>
+                    <td><strong>3702</strong></td>
+                    <td>Inconnu</td>
+                    <td>7</td>
+                </tr>
+            
+                <tr>
+                    <td><strong>5353</strong></td>
+                    <td>mDNS</td>
+                    <td>6</td>
+                </tr>
+            
+                <tr>
+                    <td><strong>32892</strong></td>
+                    <td>Inconnu</td>
+                    <td>5</td>
+                </tr>
+            
+                <tr>
+                    <td><strong>44718</strong></td>
+                    <td>Inconnu</td>
+                    <td>5</td>
+                </tr>
+            
+                <tr>
+                    <td><strong>55954</strong></td>
+                    <td>Inconnu</td>
+                    <td>2</td>
+                </tr>
+            
+                <tr>
+                    <td><strong>53</strong></td>
+                    <td>DNS</td>
+                    <td>2</td>
+                </tr>
+            
+                <tr>
+                    <td><strong>54444</strong></td>
+                    <td>Inconnu</td>
+                    <td>1</td>
+                </tr>
+            </tbody></table></div></div>
+        
+        <div class="footer">
+            <p><strong>Network Traffic Analyzer v2.0</strong> - Enhanced Edition</p>
+            <p>Développé par Obine </p>
+            <p>Modules: Packet Sniffer | Traffic Analyzer | Anomaly Detector | GeoIP | Blacklist | Alert Correlator</p>
+        </div>
+    </div>
+</body>
+</html>
