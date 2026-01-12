@@ -19,7 +19,7 @@ from analysis.anomaly_detector import AnomalyDetector
 
 # Crée l'app Flask
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'ton-secret-key-ici'  # Change ça en prod
+app.config['SECRET_KEY'] = 'key-ici'  
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 dashboard_data = {
@@ -154,7 +154,7 @@ class LiveSniffer:
         self.dashboard_data['total_packets'] += 1
         self.packets.append(packet)
         
-        # Envoie la mise à jour au navigateur (toutes les 10 paquets pour pas spammer)
+        # Envoie la mise à jour au navigateur (toutes les 10 paquets)
         if self.dashboard_data['total_packets'] % 10 == 0:
             self.socketio.emit('packet_count_update', {
                 'count': self.dashboard_data['total_packets']
