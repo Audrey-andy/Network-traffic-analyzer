@@ -1,0 +1,36 @@
+# Fichiers générés 
+data/captures/*.pcap
+data/reports/*.html
+data/exports/*.json
+data/exports/*.csv
+data/exports/*.xml
+logs/*.log
+logs/*.log.gz
+
+# Configuration sensible
+config.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Environnements virtuels
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Daemon
+/tmp/network-analyzer-daemon.pid
