@@ -24,8 +24,8 @@
 
 ### Contexte du projet
 
-Développé dans le cadre d'un projet de stage en cybersécurité, cet outil démontre des compétences en :
-- Programmation Python avancée (3200+ lignes)
+Développé dans le cadre d'un projet, cet outil démontre des compétences en :
+- Programmation Python avancée 
 - Sécurité réseau et analyse de protocoles
 - Développement web (Flask, HTML/CSS/JavaScript)
 - Intégration d'APIs externes (AbuseIPDB, VirusTotal)
